@@ -17,7 +17,8 @@ RUN pip3 install --upgrade pip && \
 
 # Создаём рабочую директорию для bench и инициализируем bench в ней
 RUN mkdir -p /home/frappe/frappe-bench && cd /home/frappe/frappe-bench && \
-    bench init . && \
+    bench init --frappe-branch version-14 --skip-redis-config-generation frappe-bench && \
+    cd frappe-bench && \
     bench setup requirements
 
 # Устанавливаем рабочую директорию
