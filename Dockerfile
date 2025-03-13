@@ -1,10 +1,10 @@
 FROM frappe/erpnext:v14.22.2
 
+# Получаем root-доступ для установки системных пакетов
 USER root
-
 WORKDIR /home/frappe
 
-# Устанавливаем зависимости
+# Обновляем apt и устанавливаем Python3, pip и необходимые библиотеки
 RUN apt-get update && apt-get install -y python3-pip python3-dev && \
     chown -R frappe:frappe /home/frappe
 
@@ -15,11 +15,13 @@ USER frappe
 RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir frappe-bench
 
-# Создаём директорию frappe-bench и выполняем setup
+# Создаём рабочую директорию для bench и инициализируем bench в ней
 RUN mkdir -p /home/frappe/frappe-bench && cd /home/frappe/frappe-bench && \
-    bench init --skip-redis-config-generation && \
+    bench init . && \
     bench setup requirements
 
+# Устанавливаем рабочую директорию
 WORKDIR /home/frappe/frappe-bench
 
+# Запускаем ERPNext
 CMD ["bench", "start"]
