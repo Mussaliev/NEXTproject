@@ -1,0 +1,17 @@
+version: "3"
+services:
+  backend:
+    image: frappe/erpnext:v14.22.2
+    restart: always
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=postgres-dldn.railway.internal
+      - DB_PORT=5432
+      - DB_NAME=railway
+      - DB_USER=postgres
+      - DB_PASSWORD=dXPCNlZVWMsWfYvmRHICodSbiObAoMfs
+      - ADMIN_PASSWORD=dXPCNlZVWMsWfYvmRHICodSbiObAoMfs
+      - FRAPPE_SITE_NAME=erp.yourdomain.com
+      - INSTALL_APPS=erpnext
+    ports:
+      - "8000:8000"
